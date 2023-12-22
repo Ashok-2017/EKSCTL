@@ -1,0 +1,87 @@
+#!/usr/bin/env eksctl create cluster --write-kubeconfig=false -f
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+   name: eksctl-2023
+   region: xxxx
+tags:
+  environment: qa
+  role: eksctl-2023
+vpc:
+  id: "xxxxxx"
+clusterEndpoints:
+  publicAccess: true
+  privateAccess: false
+subnets:
+  private: 
+    region-a:
+      id: "subnet-abcd"
+    region-b:
+      id: "subnet-defg"
+    region-c:
+      id: "subnet-hijk"
+   public:
+     region-a:
+       id: "subnet-lmno"
+     region-b:
+       id: "subnet-pqrt"
+     region-c:
+       id: "subnet-zqrt"
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["*"]
+nodeGroups:
+  - name: ng-1
+    instanceType: m5.xlarge
+    privateNetworking: true
+    minSize: 3
+    desiredCapacity: 3
+    maxSize: 7
+    availabilityZones:
+      - region-a
+      - region-b
+      - region-c
+    volumeSize: 100
+    tags:
+      Name: eksctl-2023
+      role: eksctl-2023
+      environment: qa
+     ssh:
+       allow: false
+     labels: {role: worker}
+     securityGroups:
+       attachIds:
+         - sg-xxxx
+     iam:
+       withAddonPolicies:
+         externalDNS: true
+         ebs: true
+         albIngress: true
+
+
+
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
